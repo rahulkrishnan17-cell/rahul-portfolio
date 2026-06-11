@@ -64,7 +64,7 @@ export default function Contact() {
             ))}
             <motion.div initial={{ opacity:0 }} animate={inView?{ opacity:1 }:{}} transition={{ delay:0.8 }}
               style={{ display:'flex', gap:'10px', marginTop:'0.5rem', flexWrap:'wrap' }}>
-              {[{label:'GitHub',href:'https://github.com'},{label:'LinkedIn',href:'https://linkedin.com/in/Rahulkrishnan'}].map(s=>(
+              {[{label:'GitHub',href:'https://github.com'},{label:'LinkedIn',href:'https://www.linkedin.com/in/rahul-krishnan-s17/'}].map(s=>(
                 <a key={s.label} href={s.href} target="_blank"
                   style={{ fontFamily:'var(--font-mono)', fontSize:'0.7rem', letterSpacing:'0.08em', padding:'9px 18px', border:'1px solid var(--border)', borderRadius:'3px', color:'var(--gray)', transition:'all 0.2s' }}
                   onMouseEnter={e=>{ e.currentTarget.style.borderColor='var(--cyan)'; e.currentTarget.style.color='var(--cyan)' }}
