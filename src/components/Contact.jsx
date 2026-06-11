@@ -15,7 +15,7 @@ export default function Contact() {
   const contacts=[
     { label:'Email', value:'rahulkrishnan.beechithil@gmail.com', icon:'✉', href:'mailto:rahulkrishnan.beechithil@gmail.com', copyable:true },
     { label:'Phone', value:'+91 9544364192', icon:'📞', href:'tel:+919544364192', copyable:true },
-    { label:'LinkedIn', value:'linkedin.com/in/Rahulkrishnan', icon:'💼', href:'https://linkedin.com/in/Rahulkrishnan', copyable:false },
+    { label:'LinkedIn', value:'linkedin.com/in/Rahulkrishnan', icon:'💼', href:'https://www.linkedin.com/in/rahul-krishnan-s17', copyable:false },
     { label:'Location', value:'Bangalore, India', icon:'📍', href:null, copyable:false },
   ]
 
