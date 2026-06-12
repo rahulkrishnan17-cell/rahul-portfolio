@@ -57,8 +57,10 @@ export default function About() {
               <p>With hands-on experience at BizViz Technologies (BDB), I've managed production Kubernetes clusters, implemented GitOps workflows with FluxCD, and supported global clients including MTN (South Africa), Yujaa, and Mascom.</p>
               <p>My approach: automate everything, monitor everything, and build systems that scale.</p>
             </div>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0.75rem', marginTop:'1.75rem' }}>
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))', gap:'0.75rem', marginTop:'1.75rem' }}>
               {[
+                { label:'Current Education', value:'BCA — IGNOU' },
+                { label:'BCA Duration', value:'Jul 2026 — Jul 2029' },
                 { label:'Education', value:'Diploma in ECE' },
                 { label:'Institution', value:'Govt. Polytechnic, Palakkad' },
                 { label:'Current Role', value:'Associate DevOps Eng.' },
