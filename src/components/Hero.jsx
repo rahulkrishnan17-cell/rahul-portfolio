@@ -16,9 +16,9 @@ function GridCanvas() {
       const rows = Math.ceil(canvas.height / 60)
       for (let x = 0; x <= cols; x++) {
         for (let y = 0; y <= rows; y++) {
-          const dist = Math.sin(x*0.3+t) * Math.cos(y*0.3+t*0.7)
+          const d = Math.sin(x*0.3+t) * Math.cos(y*0.3+t*0.7)
           ctx.beginPath(); ctx.arc(x*60, y*60, 1.5, 0, Math.PI*2)
-          ctx.fillStyle = `rgba(0,200,255,${(dist+1)*0.025})`; ctx.fill()
+          ctx.fillStyle = `rgba(0,200,255,${(d+1)*0.025})`; ctx.fill()
         }
       }
       ctx.strokeStyle='rgba(0,200,255,0.025)'; ctx.lineWidth=1
@@ -28,17 +28,17 @@ function GridCanvas() {
       t+=0.005; animId=requestAnimationFrame(draw)
     }
     draw()
-    return ()=>{ cancelAnimationFrame(animId); window.removeEventListener('resize',resize) }
-  },[])
+    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize) }
+  }, [])
   return <canvas ref={canvasRef} style={{ position:'absolute', inset:0, zIndex:0 }} />
 }
 
-const words = ['Infrastructure','Automation','Kubernetes','CI/CD Pipelines','Cloud Systems','GitOps']
+const words = ['Kubernetes','CI/CD Pipelines','Cloud Infrastructure','GitOps','Terraform','Automation']
 const nameLetters = ['R','a','h','u','l',' ','K','r','i','s','h','n','a','n']
 
 export default function Hero() {
   const [wordIdx, setWordIdx] = useState(0)
-  useEffect(()=>{ const t=setInterval(()=>setWordIdx(i=>(i+1)%words.length),2500); return()=>clearInterval(t) },[])
+  useEffect(() => { const t = setInterval(() => setWordIdx(i => (i+1)%words.length), 2500); return () => clearInterval(t) }, [])
 
   return (
     <section id="hero" style={{ position:'relative', minHeight:'100vh', display:'flex', alignItems:'center', overflow:'hidden' }}>
@@ -52,21 +52,17 @@ export default function Hero() {
           {'>'} HELLO WORLD — I'M
         </motion.div>
 
-        {/* Animated name letters */}
-        <div style={{ marginBottom:'0.75rem', lineHeight:1.1 }}>
-          {nameLetters.map((letter,i)=>(
+        {/* Letter by letter name */}
+        <div style={{ marginBottom:'0.5rem', lineHeight:1.1 }}>
+          {nameLetters.map((letter, i) => (
             <motion.span key={i}
               initial={{ opacity:0, y:40 }} animate={{ opacity:1, y:0 }}
               transition={{ delay:0.75+i*0.07, duration:0.4, ease:'easeOut' }}
-              style={{
-                display:'inline-block',
-                fontFamily:'var(--font-display)', fontWeight:800,
-                fontSize:'clamp(2.2rem,5vw,4rem)',
-                letterSpacing:'-0.02em',
-                color: i<5 ? 'var(--white)' : 'var(--cyan)',
-                textShadow: i>=6 ? '0 0 40px rgba(0,200,255,0.4)' : 'none',
-                whiteSpace:'pre',
-              }}>
+              style={{ display:'inline-block', fontFamily:'var(--font-display)', fontWeight:800,
+                fontSize:'clamp(2.2rem,5vw,4rem)', letterSpacing:'-0.02em',
+                color: i < 5 ? 'var(--white)' : 'var(--cyan)',
+                textShadow: i >= 6 ? '0 0 40px rgba(0,200,255,0.4)' : 'none',
+                whiteSpace:'pre' }}>
               {letter}
             </motion.span>
           ))}
@@ -74,9 +70,7 @@ export default function Hero() {
 
         <motion.div initial={{ opacity:0, x:-20 }} animate={{ opacity:1, x:0 }} transition={{ delay:0.9 }}
           style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'1.5rem', flexWrap:'wrap' }}>
-          <span style={{ fontFamily:'var(--font-mono)', fontSize:'clamp(0.8rem,2vw,1rem)', color:'var(--gray)' }}>
-            Associate DevOps Engineer
-          </span>
+          <span style={{ fontFamily:'var(--font-mono)', fontSize:'clamp(0.8rem,2vw,1rem)', color:'var(--gray)' }}>DevOps Engineer</span>
           <span style={{ width:6, height:6, background:'var(--green)', borderRadius:'50%', boxShadow:'0 0 10px var(--green)', display:'inline-block', animation:'pulse 2s infinite', flexShrink:0 }} />
           <span style={{ fontFamily:'var(--font-mono)', fontSize:'clamp(0.65rem,1.5vw,0.78rem)', color:'var(--green)' }}>Available for opportunities</span>
         </motion.div>
@@ -84,7 +78,7 @@ export default function Hero() {
         <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:1.1 }}
           style={{ marginBottom:'2.5rem', overflow:'hidden', height:'2rem', display:'flex', alignItems:'center' }}>
           <span style={{ fontFamily:'var(--font-body)', fontSize:'clamp(0.85rem,2vw,1rem)', color:'var(--gray)', marginRight:8 }}>Architecting</span>
-          <motion.span key={wordIdx} initial={{ y:30,opacity:0 }} animate={{ y:0,opacity:1 }} exit={{ y:-30,opacity:0 }} transition={{ duration:0.35 }}
+          <motion.span key={wordIdx} initial={{ y:30, opacity:0 }} animate={{ y:0, opacity:1 }} exit={{ y:-30, opacity:0 }} transition={{ duration:0.35 }}
             style={{ fontFamily:'var(--font-display)', fontSize:'clamp(0.85rem,2vw,1rem)', fontWeight:700, color:'var(--cyan)' }}>
             {words[wordIdx]}
           </motion.span>
@@ -107,10 +101,15 @@ export default function Hero() {
         {/* Stats */}
         <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:1.5 }}
           style={{ display:'flex', gap:'clamp(1rem,4vw,3rem)', flexWrap:'wrap' }}>
-          {[{val:'2+',label:'Years Experience'},{val:'4+',label:'Projects Delivered'},{val:'10+',label:'Technologies'},{val:'AWS',label:'Cloud Platform'}].map(({val,label})=>(
+          {[
+            { val:'2+', label:'Years Experience' },
+            { val:'3', label:'Global Clients' },
+            { val:'AWS·Azure·GCP', label:'Cloud Platforms' },
+            { val:'4+', label:'Projects Delivered' },
+          ].map(({ val, label }) => (
             <div key={label} style={{ borderLeft:'2px solid var(--border-bright)', paddingLeft:'1rem' }}>
-              <div style={{ fontFamily:'var(--font-display)', fontSize:'clamp(1.2rem,3vw,1.6rem)', fontWeight:800, color:'var(--cyan)' }}>{val}</div>
-              <div style={{ fontFamily:'var(--font-mono)', fontSize:'clamp(0.58rem,1.2vw,0.65rem)', color:'var(--gray)', letterSpacing:'0.08em' }}>{label}</div>
+              <div style={{ fontFamily:'var(--font-display)', fontSize:'clamp(1rem,2.5vw,1.5rem)', fontWeight:800, color:'var(--cyan)' }}>{val}</div>
+              <div style={{ fontFamily:'var(--font-mono)', fontSize:'clamp(0.55rem,1.1vw,0.65rem)', color:'var(--gray)', letterSpacing:'0.08em' }}>{label}</div>
             </div>
           ))}
         </motion.div>

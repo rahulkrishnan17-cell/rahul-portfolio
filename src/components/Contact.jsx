@@ -2,20 +2,27 @@ import React, { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 function useInView(ref) {
-  const [v,setV]=useState(false)
-  useEffect(()=>{ const o=new IntersectionObserver(([e])=>{ if(e.isIntersecting)setV(true) },{threshold:0.1}); if(ref.current)o.observe(ref.current); return()=>o.disconnect() },[])
+  const [v,setV] = useState(false)
+  useEffect(() => { const o = new IntersectionObserver(([e]) => { if(e.isIntersecting) setV(true) }, { threshold:0.1 }); if(ref.current) o.observe(ref.current); return () => o.disconnect() }, [])
   return v
 }
 
 export default function Contact() {
-  const ref=useRef(null); const inView=useInView(ref)
-  const [copied,setCopied]=useState('')
-  const copy=(text,label)=>{ navigator.clipboard.writeText(text); setCopied(label); setTimeout(()=>setCopied(''),2000) }
+  const ref = useRef(null); const inView = useInView(ref)
+  const [copied, setCopied] = useState('')
+  const copy = (text, label) => { navigator.clipboard.writeText(text); setCopied(label); setTimeout(() => setCopied(''), 2000) }
 
-  const contacts=[
+  const downloadResume = () => {
+    const link = document.createElement('a')
+    link.href = '/Rahul_Krishnan_DevOps_Resume.pdf'
+    link.download = 'Rahul_Krishnan_DevOps_Resume.pdf'
+    link.click()
+  }
+
+  const contacts = [
     { label:'Email', value:'rahulkrishnan.beechithil@gmail.com', icon:'✉', href:'mailto:rahulkrishnan.beechithil@gmail.com', copyable:true },
     { label:'Phone', value:'+91 9544364192', icon:'📞', href:'tel:+919544364192', copyable:true },
-    { label:'LinkedIn', value:'linkedin.com/in/Rahulkrishnan', icon:'💼', href:'https://www.linkedin.com/in/rahul-krishnan-s17', copyable:false },
+    { label:'LinkedIn', value:'linkedin.com/in/rahul-krishnan-s17', icon:'💼', href:'https://www.linkedin.com/in/rahul-krishnan-s17', copyable:false },
     { label:'Location', value:'Bangalore, India', icon:'📍', href:null, copyable:false },
   ]
 
@@ -33,11 +40,10 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,380px),1fr))', gap:'clamp(1.5rem,5vw,4rem)', alignItems:'start' }}>
-          {/* Contact cards */}
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,360px),1fr))', gap:'clamp(1.5rem,5vw,4rem)', alignItems:'start' }}>
           <motion.div initial={{ opacity:0, x:-30 }} animate={inView?{ opacity:1, x:0 }:{}} transition={{ delay:0.2, duration:0.6 }}
             style={{ display:'flex', flexDirection:'column', gap:'0.85rem' }}>
-            {contacts.map((c,i)=>(
+            {contacts.map((c,i) => (
               <motion.div key={c.label} initial={{ opacity:0, x:-20 }} animate={inView?{ opacity:1, x:0 }:{}} transition={{ delay:0.3+i*0.1 }}
                 style={{ display:'flex', alignItems:'center', gap:'0.85rem', padding:'0.85rem 1.1rem', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'6px', transition:'all 0.2s' }}
                 onMouseEnter={e=>{ e.currentTarget.style.borderColor='var(--cyan)'; e.currentTarget.style.background='var(--surface)' }}
@@ -47,24 +53,40 @@ export default function Contact() {
                   <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', color:'var(--cyan)', letterSpacing:'0.12em', marginBottom:2 }}>{c.label}</div>
                   {c.href ? (
                     <a href={c.href} target={c.href.startsWith('http')?'_blank':undefined}
-                      style={{ fontSize:'clamp(0.72rem,1.4vw,0.82rem)', color:'var(--white)', fontWeight:500, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', display:'block' }}>
+                      style={{ fontSize:'clamp(0.7rem,1.3vw,0.8rem)', color:'var(--white)', fontWeight:500, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', display:'block' }}>
                       {c.value}
                     </a>
                   ) : (
-                    <span style={{ fontSize:'clamp(0.72rem,1.4vw,0.82rem)', color:'var(--white)', fontWeight:500 }}>{c.value}</span>
+                    <span style={{ fontSize:'clamp(0.7rem,1.3vw,0.8rem)', color:'var(--white)', fontWeight:500 }}>{c.value}</span>
                   )}
                 </div>
-                {c.copyable&&(
-                  <button onClick={()=>copy(c.value,c.label)}
+                {c.copyable && (
+                  <button onClick={() => copy(c.value, c.label)}
                     style={{ background:'none', border:'none', cursor:'pointer', padding:'3px 7px', fontFamily:'var(--font-mono)', fontSize:'0.58rem', color:copied===c.label?'var(--green)':'var(--gray)', transition:'color 0.2s', flexShrink:0 }}>
                     {copied===c.label?'✓ COPIED':'COPY'}
                   </button>
                 )}
               </motion.div>
             ))}
-            <motion.div initial={{ opacity:0 }} animate={inView?{ opacity:1 }:{}} transition={{ delay:0.8 }}
-              style={{ display:'flex', gap:'10px', marginTop:'0.5rem', flexWrap:'wrap' }}>
-              {[{label:'GitHub',href:'https://github.com'},{label:'LinkedIn',href:'https://www.linkedin.com/in/rahul-krishnan-s17/'}].map(s=>(
+
+            {/* Download Resume card */}
+            <motion.div initial={{ opacity:0, x:-20 }} animate={inView?{ opacity:1, x:0 }:{}} transition={{ delay:0.7 }}>
+              <button onClick={downloadResume}
+                style={{ width:'100%', padding:'1rem', background:'var(--bg-2)', border:'1px solid var(--green)', borderRadius:'6px', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'10px', transition:'all 0.2s' }}
+                onMouseEnter={e=>{ e.currentTarget.style.background='rgba(0,255,157,0.08)' }}
+                onMouseLeave={e=>{ e.currentTarget.style.background='var(--bg-2)' }}>
+                <span style={{ fontSize:'1.1rem' }}>📄</span>
+                <div style={{ textAlign:'left' }}>
+                  <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', color:'var(--green)', letterSpacing:'0.12em' }}>DOWNLOAD</div>
+                  <div style={{ fontFamily:'var(--font-body)', fontSize:'0.82rem', color:'var(--white)', fontWeight:500 }}>Rahul_Krishnan_DevOps_Resume.pdf</div>
+                </div>
+                <span style={{ color:'var(--green)', marginLeft:'auto', fontSize:'1.1rem' }}>↓</span>
+              </button>
+            </motion.div>
+
+            <motion.div initial={{ opacity:0 }} animate={inView?{ opacity:1 }:{}} transition={{ delay:0.85 }}
+              style={{ display:'flex', gap:'10px', flexWrap:'wrap' }}>
+              {[{ label:'LinkedIn', href:'https://www.linkedin.com/in/rahul-krishnan-s17' },{ label:'GitHub', href:'https://github.com' }].map(s => (
                 <a key={s.label} href={s.href} target="_blank"
                   style={{ fontFamily:'var(--font-mono)', fontSize:'0.7rem', letterSpacing:'0.08em', padding:'9px 18px', border:'1px solid var(--border)', borderRadius:'3px', color:'var(--gray)', transition:'all 0.2s' }}
                   onMouseEnter={e=>{ e.currentTarget.style.borderColor='var(--cyan)'; e.currentTarget.style.color='var(--cyan)' }}
@@ -84,12 +106,12 @@ export default function Contact() {
               Ready to build<br /><span style={{ color:'var(--cyan)' }}>something great?</span>
             </h3>
             <p style={{ color:'var(--gray)', fontSize:'clamp(0.78rem,1.5vw,0.85rem)', lineHeight:1.7, marginBottom:'1.5rem' }}>
-              Passionate about cloud infrastructure, automation, and DevOps culture. Whether full-time or project-based, let's connect.
+              Passionate about cloud infrastructure, GitOps, and DevOps culture. Whether full-time or project-based, let's connect.
             </p>
             <div style={{ display:'flex', flexDirection:'column', gap:'8px', marginBottom:'1.5rem' }}>
-              {['Cloud Infrastructure (AWS / Azure)','Kubernetes & Container Orchestration','CI/CD & GitOps Pipelines','Monitoring & Observability'].map(item=>(
-                <div key={item} style={{ display:'flex', gap:'8px', alignItems:'center', fontSize:'clamp(0.75rem,1.4vw,0.8rem)', color:'var(--gray)' }}>
-                  <span style={{ color:'var(--green)', fontSize:'0.55rem', flexShrink:0 }}>●</span>{item}
+              {['Cloud Infrastructure (AWS / Azure / GCP)','Kubernetes & Container Orchestration','CI/CD, GitOps & Automation','Monitoring, Alerting & Observability'].map(item => (
+                <div key={item} style={{ display:'flex', gap:'8px', alignItems:'center', fontSize:'clamp(0.73rem,1.4vw,0.8rem)', color:'var(--gray)' }}>
+                  <span style={{ color:'var(--green)', fontSize:'0.52rem', flexShrink:0 }}>●</span>{item}
                 </div>
               ))}
             </div>
