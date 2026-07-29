@@ -104,7 +104,7 @@ export default function Hero() {
           {[
             { val:'2+', label:'Years Experience' },
             { val:'3', label:'Global Clients' },
-            { val:'AWS·Azure·GCP', label:'Cloud Platforms' },
+            { val:'AWS · Azure · GCP', label:'Cloud Platforms' },
             { val:'4+', label:'Projects Delivered' },
           ].map(({ val, label }) => (
             <div key={label} style={{ borderLeft:'2px solid var(--border-bright)', paddingLeft:'1rem' }}>
